@@ -82,7 +82,60 @@ ${transcript}`
     res.status(500).json({ error: err.message });
   }
 });
+async function processJob(job) {
+  try {
+    console.log("Processing job:", job.id);
 
+    await supabase
+      .from("clip_jobs")
+      .update({ status: "processing" })
+      .eq("id", job.id);
+
+    const output = await replicate.run(
+       "openai/whisper-large-v3",
+      {
+        input: {
+          audio: job.video_url
+        }
+      }
+    );
+
+    await supabase
+      .from("clip_jobs")
+      .update({
+        status: "completed",
+        result: output
+      })
+      .eq("id", job.id);
+
+    console.log("Job completed:", job.id);
+  } catch (err) {
+    console.error("Worker error:", err);
+
+    await supabase
+      .from("clip_jobs")
+      .update({ status: "failed" })
+      .eq("id", job.id);
+  }
+}
+
+async function startWorker() {
+  console.log("ClipForge worker online");
+
+  setInterval(async () => {
+    const { data: jobs } = await supabase
+      .from("clip_jobs")
+      .select("*")
+      .eq("status", "queued")
+      .limit(1);
+
+    if (jobs && jobs.length > 0) {
+      await processJob(jobs[0]);
+    }
+  }, 10000);
+}
+
+startWorker();
 app.listen(process.env.PORT || 3000, () => {
   console.log("ClipForge AI online");
 });
