@@ -11,6 +11,6 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "openai": "^5.0.0",
-    "replicate": "^1.0.0",
+    "replicate": "^1.0.0"
   }
 }
