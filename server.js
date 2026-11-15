@@ -24,12 +24,14 @@ app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
 
+
 app.post("/api/jobs", async (req, res) => {
   try {
     const { videoUrl } = req.body;
 
-    if (!videoUrl)
+    if (!videoUrl) {
       return res.status(400).json({ error: "Video URL required" });
+    }
 
     const { data, error } = await supabase
       .from("clip_jobs")
@@ -41,14 +43,18 @@ app.post("/api/jobs", async (req, res) => {
       .single();
 
     if (error) {
-  console.error("SUPABASE INSERT ERROR:", error);
-  throw error;res.json({ job: data });
+      console.error("SUPABASE INSERT ERROR:", error);
+      throw error;
+    }
+
+    res.json({ job: data });
   } catch (err) {
     console.error("JOB ERROR:", err);
     console.error("CAUSE:", err.cause);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 app.post("/api/analyze", async (req, res) => {
   try {
