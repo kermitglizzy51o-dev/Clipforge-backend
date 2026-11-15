@@ -42,14 +42,12 @@ app.post("/api/jobs", async (req, res) => {
 
     if (error) {
   console.error("SUPABASE INSERT ERROR:", error);
-  throw error;
-}
-
-    res.json({ job: } catch (err) {
+  throw error;res.json({ job: data });
+  } catch (err) {
     console.error("JOB ERROR:", err);
     console.error("CAUSE:", err.cause);
     res.status(500).json({ error: err.message });
-}
+  }
 });
 
 app.post("/api/analyze", async (req, res) => {
