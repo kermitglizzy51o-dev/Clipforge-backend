@@ -12,7 +12,9 @@ app.use(express.json({ limit: "5mb" }));
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
-
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
