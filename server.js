@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import OpenAI from "openai";
 import { createClient } from "@supabase/supabase-js";
-
+import Replicate from "replicate";
 const app = express();
 app.use(cors({
   origin: true
