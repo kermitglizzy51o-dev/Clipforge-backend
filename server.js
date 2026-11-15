@@ -40,7 +40,10 @@ app.post("/api/jobs", async (req, res) => {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+  console.error("SUPABASE INSERT ERROR:", error);
+  throw error;
+}
 
     res.json({ job: data });
   } catch (err) {
