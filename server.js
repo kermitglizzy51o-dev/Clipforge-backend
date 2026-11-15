@@ -45,10 +45,11 @@ app.post("/api/jobs", async (req, res) => {
   throw error;
 }
 
-    res.json({ job: data });
-  } catch (err) {
+    res.json({ job: } catch (err) {
+    console.error("JOB ERROR:", err);
+    console.error("CAUSE:", err.cause);
     res.status(500).json({ error: err.message });
-  }
+}
 });
 
 app.post("/api/analyze", async (req, res) => {
