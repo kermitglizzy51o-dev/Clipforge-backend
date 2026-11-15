@@ -92,7 +92,7 @@ async function processJob(job) {
       .eq("id", job.id);
 
     const output = await replicate.run(
-       "openai/whisper-large-v3",
+       "openai/whisper:8099696689d249cf8b122d833c36ac3f75505c666a395ca40ef26f68e7d3d16e",
       {
         input: {
           audio: job.video_url
